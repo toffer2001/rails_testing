@@ -1,18 +1,58 @@
 class SchoolsController < ApplicationController
 
-  # GET /schools
+  before_action :set_school, only: [:show, :edit, :update, :destroy]
+  
+  def index
+    @schools = School.all
+  end
 
-  # GET /schools/1
+  def show
+    # before_action
+  end
 
-  # GET /schools/new
+  def new
+    @school = School.new
+  end
 
-  # GET /schools/edit
+  def edit
+    # before_action
+  end
 
-  # POST /schools
+  def create
+    @school = School.new(school_params)
 
-  # DELETE /schools
+    if @school.save
+      redirect_to @school, notice: "School is created"
+    else
+      render :new
+    end
+  end
+
+  def update
+    # before_action
+    if @school.update(school_params)
+      redirect_to @school, notice: "School is updated"
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    # before_action
+    @school.destroy
+    redirect_to @school
+  end
+    
 
   private
+
+  def set_school
+    @school = School.find(params[:id])
+  end
+
+  def school_params
+    params.require(:school).permit(:name, :address, :principal, :capacity, :private_school)
+  end
 
     # Use callbacks to share common setup or constraints between actions.
 

@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Student, type: :model do
 
-  before(:each) do
-    @school = FactoryBot.create(:school)
-    @student = FactoryBot.create(:student)
-  end
+  let(:student) {FactoryBot.create(:student)}
 
   describe 'attributes' do
     it { should respond_to :name }
@@ -17,7 +14,7 @@ RSpec.describe Student, type: :model do
       # expect(@student.name).to eq("Bob")
       
     end
-  end
+  
 
   #   describe 'attributes' do
   #   it 'has a student_number' do
@@ -41,7 +38,8 @@ RSpec.describe Student, type: :model do
     it { should validate_presence_of :name }
     it { should validate_presence_of :student_number }
     it { should validate_presence_of :gpa }
-    it { should validate_uniqueness_of :name }
+    # it { should validate_uniqueness_of(:name).case_insensitive }
+    # it { should validate_uniqueness_of(:name).ignoring_case_sensitivity }
     
     it 'has a capacity lower bound' do
       should validate_numericality_of(:student_number).
@@ -59,7 +57,8 @@ RSpec.describe Student, type: :model do
   end
 
   describe "uniqueness" do
-    Student.create!(name: 'Kris', student_number: 123, gpa: 4.0)
+    School.create!(name: 'test school', address: '123 main', capacity: 250, principal: 'mt', private_school: true)
+    Student.create!(name: 'Kris', student_number: 123, gpa: 4.0, school_id: 1)
     subject { Student.new(name: 'Kris', student_number: 123, gpa: 4.0) }
     it { should validate_uniqueness_of(:name) }
   end

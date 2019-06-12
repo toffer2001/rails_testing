@@ -22,8 +22,7 @@ class StudentsController < ApplicationController
 
   # POST /schools/1/students
   def create
-    @student = @school.student.new(student_params)
-    
+    @student = @school.students.new(student_params)
     if @student.save
       redirect_to @student, notice: 'Student is created'
     else
@@ -43,7 +42,7 @@ class StudentsController < ApplicationController
   # DELETE /schools/1/students/1
   def destroy
     @student.destroy
-    redirect_to school_students_path(@school), notice: 'School is deleted'
+    redirect_to @student, notice: 'School is deleted'
   end
 
   private
